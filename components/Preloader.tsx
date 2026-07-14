@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+type LoaderPhase = "checking" | "running" | "leaving" | "hidden";
+
 const stages = [
   { at: 0, text: "מאתחל ליבת הגנה" },
   { at: 20, text: "מחבר סוכנים אוטונומיים" },
@@ -11,78 +13,125 @@ const stages = [
   { at: 100, text: "המערכת פעילה" },
 ];
 
+const STORAGE_KEY = "aether-preloader-seen";
+const LOADER_DURATION = 2400;
+
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
-  const [leaving, setLeaving] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [phase, setPhase] = useState<LoaderPhase>("checking");
 
-  const stage = useMemo(() => {
+  const currentStage = useMemo(() => {
     return (
-      [...stages].reverse().find((item) => progress >= item.at) ?? stages[0]
+      [...stages]
+        .reverse()
+        .find((stage) => progress >= stage.at) ?? stages[0]
     );
   }, [progress]);
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia(
+    const alreadySeen = sessionStorage.getItem(STORAGE_KEY);
+    const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const alreadySeen = sessionStorage.getItem("aether-preloader-seen");
-
-    if (alreadySeen || reduceMotion) {
-      setHidden(true);
+    /*
+     * בזמן רענון:
+     * הקומפוננטה מתחילה ב-checking ומחזירה null.
+     * לכן לא רואים הבזק של 0%.
+     */
+    if (alreadySeen || reducedMotion) {
+      setPhase("hidden");
       return;
     }
 
+    setPhase("running");
+
     document.documentElement.classList.add("preloader-active");
+    document.body.classList.add("preloader-visible");
 
-    let current = 0;
+    const startedAt = performance.now();
+    let animationFrame = 0;
 
-    const timer = window.setInterval(() => {
-      const remaining = 100 - current;
+    const updateProgress = (currentTime: number) => {
+      const elapsed = currentTime - startedAt;
+      const linearProgress = Math.min(elapsed / LOADER_DURATION, 1);
 
-      const step =
-        current < 45
-          ? Math.ceil(Math.random() * 5)
-          : current < 80
-            ? Math.ceil(Math.random() * 3)
-            : Math.max(1, Math.ceil(remaining * 0.14));
+      /*
+       * התקדמות טבעית:
+       * מהירה יחסית בהתחלה ואיטית מעט לקראת 100%.
+       */
+      const easedProgress = 1 - Math.pow(1 - linearProgress, 2.4);
+      const nextProgress = Math.min(
+        100,
+        Math.round(easedProgress * 100)
+      );
 
-      current = Math.min(100, current + step);
-      setProgress(current);
+      setProgress(nextProgress);
 
-      if (current >= 100) {
-        window.clearInterval(timer);
+      if (linearProgress < 1) {
+        animationFrame = requestAnimationFrame(updateProgress);
+        return;
+      }
+
+      setProgress(100);
+
+      window.setTimeout(() => {
+        setPhase("leaving");
 
         window.setTimeout(() => {
-          setLeaving(true);
+          sessionStorage.setItem(STORAGE_KEY, "true");
 
-          window.setTimeout(() => {
-            sessionStorage.setItem("aether-preloader-seen", "true");
-            document.documentElement.classList.remove("preloader-active");
-            setHidden(true);
-          }, 1150);
-        }, 650);
-      }
-    }, 48);
+          document.documentElement.classList.remove(
+            "preloader-active"
+          );
+
+          document.body.classList.remove("preloader-visible");
+
+          setPhase("hidden");
+
+          /*
+           * אומר לאתר שהפתיח הסתיים.
+           * אפשר להשתמש בזה בהמשך להפעלת אנימציית Hero.
+           */
+          window.dispatchEvent(
+            new CustomEvent("aether-preloader-complete")
+          );
+        }, 900);
+      }, 450);
+    };
+
+    animationFrame = requestAnimationFrame(updateProgress);
 
     return () => {
-      window.clearInterval(timer);
-      document.documentElement.classList.remove("preloader-active");
+      cancelAnimationFrame(animationFrame);
+
+      document.documentElement.classList.remove(
+        "preloader-active"
+      );
+
+      document.body.classList.remove("preloader-visible");
     };
   }, []);
 
-  if (hidden) {
+  /*
+   * גם בזמן הבדיקה הראשונית לא מציגים שום דבר.
+   * זה פותר את הבזק ה-0% ברענון.
+   */
+  if (phase === "checking" || phase === "hidden") {
     return null;
   }
+
+  const isLeaving = phase === "leaving";
+  const isOnline = progress === 100;
 
   return (
     <div
       className={`aether-loader ${
-        leaving ? "aether-loader--leaving" : ""
+        isLeaving ? "aether-loader--leaving" : ""
       }`}
+      role="status"
       aria-live="polite"
-      aria-label="האתר נטען"
+      aria-label={`טעינת האתר: ${progress} אחוז`}
     >
       <div className="aether-loader__noise" aria-hidden="true" />
       <div className="aether-loader__grid" aria-hidden="true" />
@@ -112,17 +161,14 @@ export default function Preloader() {
           <small>מערכת הגנה אוטונומית</small>
         </div>
 
-        <div
-          className="aether-loader__counter"
-          aria-label={`${progress} אחוז`}
-        >
+        <div className="aether-loader__counter">
           <span>{String(progress).padStart(3, "0")}</span>
           <small>%</small>
         </div>
 
         <div className="aether-loader__status">
-          <span className={progress === 100 ? "is-online" : ""} />
-          <strong>{stage.text}</strong>
+          <span className={isOnline ? "is-online" : ""} />
+          <strong>{currentStage.text}</strong>
         </div>
 
         <div className="aether-loader__bar" aria-hidden="true">
@@ -133,7 +179,10 @@ export default function Preloader() {
           />
         </div>
 
-        <div className="aether-loader__telemetry" aria-hidden="true">
+        <div
+          className="aether-loader__telemetry"
+          aria-hidden="true"
+        >
           <div>
             <span>NODE</span>
             <strong>AE-07</strong>
@@ -142,14 +191,19 @@ export default function Preloader() {
           <div>
             <span>LATENCY</span>
             <strong>
-              {Math.max(12, 58 - Math.floor(progress / 2))}ms
+              {Math.max(
+                12,
+                58 - Math.floor(progress / 2)
+              )}
+              ms
             </strong>
           </div>
 
           <div>
             <span>STATUS</span>
-            <strong className={progress === 100 ? "is-online" : ""}>
-              {progress === 100 ? "ONLINE" : "BOOT"}
+
+            <strong className={isOnline ? "is-online" : ""}>
+              {isOnline ? "ONLINE" : "BOOT"}
             </strong>
           </div>
         </div>
