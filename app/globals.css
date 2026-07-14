@@ -440,3 +440,94 @@ html.preloader-active body {
     transition-duration:250ms;
   }
 }
+/* =========================================
+   PRELOADER — PERFORMANCE FIX
+========================================= */
+
+/*
+ * בזמן שהפתיח מוצג, האתר שמתחתיו אינו מקבל
+ * אינטראקציות ואינו מצויר בכל Frame.
+ */
+body.preloader-visible > *:not(.aether-loader) {
+  visibility: hidden;
+}
+
+.aether-loader {
+  contain: strict;
+}
+
+.aether-loader__shell {
+  contain: layout paint;
+}
+
+.aether-loader__counter > span {
+  min-width: 3ch;
+}
+
+/*
+ * מאלץ את שכבות האנימציה לעבוד על שכבת GPU
+ * נפרדת ומפחית קפיצות.
+ */
+.aether-loader,
+.aether-loader__grid,
+.aether-loader__scan,
+.aether-loader__aurora,
+.aether-core__ring {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* במובייל מסירים את האלמנטים היקרים ביותר */
+@media (max-width: 700px), (hover: none) {
+  .aether-loader__noise {
+    display: none;
+  }
+
+  .aether-loader__aurora {
+    filter: blur(68px);
+    opacity: 0.065;
+  }
+
+  .aether-loader__grid {
+    animation-duration: 24s;
+    background-size: 48px 48px;
+  }
+
+  .aether-loader__scan {
+    animation-duration: 4.8s;
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+  }
+
+  .aether-core__ring--outer {
+    animation-duration: 12s;
+  }
+
+  .aether-core__ring--middle {
+    animation-duration: 14s;
+  }
+
+  .aether-core__pulse {
+    backdrop-filter: none;
+    background: #11131a;
+  }
+}
+
+/* מסכים קטנים במיוחד */
+@media (max-width: 420px) {
+  .aether-loader__shell {
+    width: calc(100% - 38px);
+  }
+
+  .aether-loader__telemetry {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .aether-loader__brand {
+    margin-bottom: 17px;
+  }
+
+  .aether-core {
+    margin-bottom: 19px;
+  }
+}
