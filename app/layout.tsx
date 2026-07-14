@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-
+import Preloader from '@/components/Preloader';
 export const metadata: Metadata = {
   title: 'AI Aether — אבטחת ענן אוטונומית',
   description: 'חוויית מוצר אינטראקטיבית לפלטפורמת אבטחת ענן אוטונומית.',
@@ -8,5 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({children}:{children:React.ReactNode}){
-  return <html lang="he" dir="rtl"><body>{children}</body></html>;
-}
+  return (
+  <html lang="he" dir="rtl">
+    <body>
+      <Preloader />
+      {children}
+    </body>
+  </html>
+)
