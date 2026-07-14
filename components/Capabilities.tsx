@@ -1,0 +1,4 @@
+'use client';
+import { motion } from 'framer-motion';
+const cards=[['סוכני AI אוטונומיים','חקירת חריגות, הצלבת אותות ותגובה לפי מדיניות.','agents'],['הגנה אקטיבית','בידוד עומסים, ביטול הרשאות והכלת זהויות שנפרצו.','defense'],['דיווח להנהלה','המרת אירועים לתמונת סיכון וסדרי עדיפויות.','report'],['נבנתה לענן','AWS, Azure ו-Google Cloud בהרשאות מינימליות.','cloud']];
+export default function Capabilities(){return <section id="capabilities"><div className="container"><div className="sectionHead"><span>CAPABILITIES</span><h2>פחות כרטיסים זהים. יותר היררכיה ומקצב.</h2></div><div className="bento">{cards.map((c,i)=><motion.article whileHover={{y:-6}} transition={{type:'spring',stiffness:220,damping:22}} className={`capCard c${i+1}`} key={c[0]}><div className="capIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href={`#icon-${c[2]}`}/></svg></div><h3>{c[0]}</h3><p>{c[1]}</p><div className="capVisual"><i/><i/><i/></div></motion.article>)}</div></div></section>}
