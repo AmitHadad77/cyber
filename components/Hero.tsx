@@ -26,7 +26,7 @@ export default function Hero() {
       return;
     }
 
-    let timer: ReturnType<typeof window.setInterval> | null = null;
+    let timer: number | null = null;
 
     const updateMetrics = () => {
       setLatency(createLatency());
