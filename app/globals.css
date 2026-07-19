@@ -6408,3 +6408,150 @@ opacity:.6;
     padding: 14px;
   }
 }
+.capCard {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  background:
+    radial-gradient(
+      circle at 15% 100%,
+      rgba(34, 211, 238, 0.07),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.034),
+      rgba(255, 255, 255, 0.009)
+    );
+}
+
+.capCard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  direction: ltr;
+}
+
+.capIcon {
+  width: 45px;
+  height: 45px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--line);
+  border-radius: 13px;
+
+  color: var(--cyan);
+  background: rgba(34, 211, 238, 0.04);
+}
+
+.capIcon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.capCard__index {
+  font-family: monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.34);
+}
+
+.capCard__content {
+  margin-top: 58px;
+}
+
+.capCard__content h3 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.06;
+}
+
+.capCard__content p {
+  max-width: 520px;
+  margin: 16px 0 0;
+
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.capCard__signal {
+  height: 54px;
+  margin-top: auto;
+  padding-top: 30px;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+
+  direction: ltr;
+}
+
+.capCard__signal span {
+  width: 46px;
+  height: 5px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(34, 211, 238, 0.22),
+    rgba(34, 211, 238, 0.8)
+  );
+
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.15);
+
+  animation: cap-signal 2.4s ease-in-out infinite;
+}
+
+.capCard__signal span:nth-child(2) {
+  width: 72px;
+  animation-delay: -0.4s;
+}
+
+.capCard__signal span:nth-child(3) {
+  width: 56px;
+  animation-delay: -0.8s;
+}
+
+.capCard__signal span:nth-child(4) {
+  width: 88px;
+  animation-delay: -1.2s;
+}
+
+@keyframes cap-signal {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.82);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .capCard {
+    min-height: 300px;
+    padding: 23px;
+  }
+
+  .capCard__content {
+    margin-top: 42px;
+  }
+
+  .capCard__signal {
+    padding-top: 24px;
+  }
+}
