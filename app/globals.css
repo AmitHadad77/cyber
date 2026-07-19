@@ -637,8 +637,11 @@ section {
   position: absolute;
   left: 28px;
   bottom: 28px;
+  z-index: 1;
   display: flex;
   gap: 8px;
+  pointer-events: none;
+  opacity: 0.55;
 }
 .capVisual i {
   width: 50px;
@@ -6097,4 +6100,29 @@ opacity:.6;
     width: 28px;
     height: 28px;
   }
+}
+.capCard {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.capCard > *:not(.capVisual) {
+  position: relative;
+  z-index: 2;
+}
+
+.capVisual {
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.capCard h3,
+.capCard p {
+  position: relative;
+  z-index: 3;
+}
+
+.capCard p {
+  padding-bottom: 82px;
 }
