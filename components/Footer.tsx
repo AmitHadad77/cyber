@@ -1,1 +1,65 @@
-export default function Footer(){return <footer><div className="container footerGrid"><div><div className="brand"><span className="brandGlyph">A</span><span><b>AI Aether</b><small>Portfolio Concept</small></span></div><p>פרויקט קונספט המדגים מוצר SaaS לאבטחת ענן.</p></div><div><h4>מוצר</h4><a href="#product">דשבורד</a><a href="#capabilities">יכולות</a><a href="#timeline">תהליך</a></div><div><h4>אמון</h4><a href="#contact">הדגמה</a><a href="mailto:security@aether.example">אבטחה</a></div><div><h4>פרויקט</h4><span>Next.js 15</span><span>GSAP</span><span>Framer Motion</span></div></div><div className="container footerBottom">© 2026 AI Aether — פרויקט קונספט.</div></footer>}
+export default function Footer() {
+  return (
+    <footer className="aetherFooter">
+      <div className="aetherFooter__glow" aria-hidden="true" />
+
+      <div className="container">
+        <div className="aetherFooter__cta">
+          <span>THE NEXT MOVE</span>
+          <h2>
+            בואו נראה איך הגנה
+            <strong> אוטונומית באמת מרגישה.</strong>
+          </h2>
+          <a href="#contact">
+            תיאום הדגמה
+            <i aria-hidden="true">↗</i>
+          </a>
+        </div>
+
+        <div className="aetherFooter__grid">
+          <div className="aetherFooter__brand">
+            <a href="#top" aria-label="AI Aether home">
+              <span>A</span>
+              <div>
+                <b>AI Aether</b>
+                <small>Autonomous Cloud Defense</small>
+              </div>
+            </a>
+            <p>
+              קונספט למוצר SaaS מתקדם שמחבר בין AI, אבטחת ענן ותגובה אוטונומית.
+            </p>
+            <div className="aetherFooter__system">
+              <i aria-hidden="true" />
+              ALL SYSTEMS OPERATIONAL
+            </div>
+          </div>
+
+          <nav>
+            <h3>מוצר</h3>
+            <a href="#product">דשבורד</a>
+            <a href="#capabilities">יכולות</a>
+            <a href="#timeline">תהליך</a>
+          </nav>
+
+          <nav>
+            <h3>פרויקט</h3>
+            <span>Next.js</span>
+            <span>TypeScript</span>
+            <span>GSAP + Motion</span>
+          </nav>
+
+          <nav>
+            <h3>יצירת קשר</h3>
+            <a href="#contact">תיאום הדגמה</a>
+            <a href="mailto:security@aether.example">Security</a>
+          </nav>
+        </div>
+
+        <div className="aetherFooter__bottom">
+          <span>© 2026 AI Aether. Portfolio concept.</span>
+          <span>Designed for clarity, trust and control.</span>
+        </div>
+      </div>
+    </footer>
+  );
+}

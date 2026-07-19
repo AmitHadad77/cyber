@@ -144,7 +144,7 @@ export default function Hero() {
                   ease: MOTION_EASE,
                 }}
               >
-                אבטחת ענן שמבינה
+                זהה איומים.
               </motion.span>
             </span>
 
@@ -159,7 +159,7 @@ export default function Hero() {
                   ease: MOTION_EASE,
                 }}
               >
-                ופועלת בזמן אמת.
+            |פעל לפני הנזק.
               </motion.span>
             </span>
           </h1>
@@ -177,9 +177,7 @@ export default function Hero() {
               ease: MOTION_EASE,
             }}
           >
-            מערכת הגנת ענן אוטונומית שמזהה חריגות,
-            מחברת את ההקשר ומפעילה תגובה מדויקת בזמן
-            אמת — לפני שהאיום הופך לנזק עסקי.
+         Aether מזהה התנהגות חריגה בזמן אמת, מקשרת בין אירועים ומפעילה תגובה אוטומטית – לפני שהאיום הופך להשבתה, דליפת מידע או נזק עסקי.
           </motion.p>
 
           <motion.div
@@ -196,11 +194,11 @@ export default function Hero() {
             }}
           >
             <a className="button primary" href="#contact">
-              תיאום הדגמה
+             צפה במערכת בפעולה
             </a>
 
             <a className="button secondary" href="#story">
-              גלו את הסיפור
+            איך זה עובד
             </a>
           </motion.div>
 

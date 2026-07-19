@@ -1,3 +1,30 @@
-'use client';
-import { useEffect, useState } from 'react';
-export default function FloatingCTA(){const [show,setShow]=useState(false);useEffect(()=>{const f=()=>setShow(scrollY>innerHeight*.65);f();addEventListener('scroll',f,{passive:true});return()=>removeEventListener('scroll',f)},[]);return <a href="#contact" className={`floatingCta ${show?'show':''}`}>תיאום הדגמה <span>↗</span></a>}
+"use client";
+
+export default function FloatingCTA() {
+  const phoneNumber = "972500000000";
+  const message = encodeURIComponent(
+    "היי, הגעתי דרך האתר ואשמח לשמוע פרטים נוספים."
+  );
+
+  return (
+    <a
+      className="whatsappFloat"
+      href={`https://wa.me/${phoneNumber}?text=${message}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="פתיחת שיחה ב-WhatsApp"
+      title="דברו איתי ב-WhatsApp"
+    >
+      <svg
+        viewBox="0 0 32 32"
+        role="img"
+        aria-hidden="true"
+      >
+        <path
+          fill="currentColor"
+          d="M16.04 3C9.42 3 4.03 8.3 4.03 14.83c0 2.29.66 4.52 1.92 6.43L4 28l6.93-1.81a12.1 12.1 0 0 0 5.1 1.12h.01c6.62 0 12.01-5.3 12.01-11.83C28.05 8.95 22.66 3 16.04 3Zm0 22.31h-.01a10.1 10.1 0 0 1-4.82-1.21l-.35-.2-4.11 1.07 1.1-3.95-.23-.37a9.76 9.76 0 0 1-1.55-5.27C6.07 9.95 10.54 5 16.05 5c5.5 0 9.98 4.95 9.98 10.38 0 5.44-4.48 9.93-9.99 9.93Zm5.47-7.45c-.3-.15-1.77-.86-2.04-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.46-.89-.78-1.49-1.75-1.66-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.59-.92-2.18-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1-1.04 2.44s1.06 2.83 1.21 3.03c.15.2 2.09 3.15 5.06 4.42.71.3 1.26.48 1.69.61.71.22 1.35.19 1.86.12.57-.08 1.77-.71 2.02-1.4.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z"
+        />
+      </svg>
+    </a>
+  );
+}
