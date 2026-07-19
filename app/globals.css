@@ -6122,42 +6122,289 @@ opacity:.6;
   position: relative;
   z-index: 3;
 }
-/* Final fix: keep capability visuals outside the text area */
-.capCard {
-  display: flex;
-  flex-direction: column;
+/* Capabilities — final visual spacing fix */
+
+.bento .capCard {
+  position: relative;
+  overflow: hidden;
   min-height: 360px;
+  padding: 28px 28px 135px;
 }
 
-.capCard .capIcon {
-  flex-shrink: 0;
-}
-
-.capCard h3,
-.capCard p {
+.bento .capCard h3,
+.bento .capCard p {
   position: relative;
   z-index: 2;
 }
 
-.capCard p {
-  padding-bottom: 0;
+.bento .capCard p {
   margin-bottom: 0;
+  padding: 0;
 }
 
-.capCard .capVisual {
-  position: relative;
-  left: auto;
-  right: auto;
-  top: auto;
-  bottom: auto;
-
+.bento .capVisual {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
   z-index: 1;
-  flex-shrink: 0;
-  align-self: flex-start;
 
-  margin-top: auto;
-  padding-top: 34px;
+  display: flex;
+  gap: 8px;
 
+  margin: 0;
+  padding: 0;
   pointer-events: none;
-  opacity: 0.7;
+}
+
+.bento .capVisual i {
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .bento .capCard {
+    min-height: 340px;
+    padding: 24px 24px 125px;
+  }
+
+  .bento .capVisual {
+    left: 24px;
+    bottom: 24px;
+  }
+}
+/* =========================================
+   PROFESSIONAL THREAT HEATMAP
+========================================= */
+
+.threatHeatmap {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(56, 189, 248, 0.08),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(15, 23, 42, 0.92),
+      rgba(5, 10, 22, 0.88)
+    );
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.035),
+    0 22px 55px rgba(0, 0, 0, 0.22);
+}
+
+.threatHeatmap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+}
+
+.threatHeatmap__header,
+.threatHeatmap__regions {
+  position: relative;
+  z-index: 1;
+}
+
+.threatHeatmap__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.threatHeatmap__header span {
+  color: rgba(125, 211, 252, 0.8);
+  font-family: monospace;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.threatHeatmap__header h4 {
+  margin: 6px 0 0;
+  color: #f8fafc;
+  font-size: 1.05rem;
+}
+
+.threatHeatmap__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 999px;
+  background: rgba(52, 211, 153, 0.06);
+  color: #6ee7b7;
+  font-family: monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.threatHeatmap__status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow:
+    0 0 0 4px rgba(52, 211, 153, 0.1),
+    0 0 14px rgba(52, 211, 153, 0.75);
+}
+
+.threatHeatmap__regions {
+  display: grid;
+  gap: 12px;
+}
+
+.threatHeatmap__region {
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.11);
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.threatHeatmap__region:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 211, 252, 0.25);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(125, 211, 252, 0.07),
+      rgba(255, 255, 255, 0.015)
+    );
+}
+
+.threatHeatmap__regionTop,
+.threatHeatmap__regionBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.threatHeatmap__regionTop > div {
+  display: grid;
+  gap: 4px;
+}
+
+.threatHeatmap__regionTop strong {
+  color: #f8fafc;
+  font-size: 0.9rem;
+}
+
+.threatHeatmap__regionTop > div span,
+.threatHeatmap__regionBottom span {
+  color: rgba(203, 213, 225, 0.55);
+  font-size: 0.68rem;
+}
+
+.threatHeatmap__level {
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-family: monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.threatHeatmap__track {
+  height: 7px;
+  margin: 15px 0 11px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.threatHeatmap__track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #22d3ee,
+      #60a5fa
+    );
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+  transition: width 700ms ease;
+}
+
+.threatHeatmap__regionBottom strong {
+  color: #f8fafc;
+  font-size: 0.82rem;
+}
+
+.threatHeatmap__region.is-low .threatHeatmap__level {
+  background: rgba(52, 211, 153, 0.1);
+  color: #6ee7b7;
+}
+
+.threatHeatmap__region.is-medium .threatHeatmap__level {
+  background: rgba(250, 204, 21, 0.1);
+  color: #fde047;
+}
+
+.threatHeatmap__region.is-high .threatHeatmap__level {
+  background: rgba(251, 113, 133, 0.1);
+  color: #fda4af;
+}
+
+.threatHeatmap__region.is-medium .threatHeatmap__track span {
+  background:
+    linear-gradient(
+      90deg,
+      #22d3ee,
+      #facc15
+    );
+}
+
+.threatHeatmap__region.is-high .threatHeatmap__track span {
+  background:
+    linear-gradient(
+      90deg,
+      #facc15,
+      #fb7185
+    );
+  box-shadow: 0 0 16px rgba(251, 113, 133, 0.32);
+}
+
+@media (max-width: 640px) {
+  .threatHeatmap {
+    padding: 18px;
+  }
+
+  .threatHeatmap__header {
+    align-items: flex-start;
+  }
+
+  .threatHeatmap__region {
+    padding: 14px;
+  }
 }

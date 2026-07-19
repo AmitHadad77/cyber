@@ -1,78 +1,76 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 const regions = [
   {
     name: "North America",
     risk: 18,
-    status: "LOW",
+    level: "Low",
+    incidents: 12,
   },
   {
     name: "Europe",
     risk: 32,
-    status: "MEDIUM",
+    level: "Medium",
+    incidents: 24,
   },
   {
     name: "Middle East",
     risk: 11,
-    status: "LOW",
+    level: "Low",
+    incidents: 8,
   },
   {
     name: "Asia Pacific",
     risk: 57,
-    status: "HIGH",
+    level: "High",
+    incidents: 41,
   },
 ];
 
 export default function ThreatHeatmap() {
   return (
-    <motion.section
+    <section
       className="threatHeatmap"
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: .6 }}
+      aria-labelledby="threat-heatmap-title"
     >
       <div className="threatHeatmap__header">
         <div>
-          <span>GLOBAL THREAT MAP</span>
-          <h4>Regional Risk Levels</h4>
+          <span>GLOBAL RISK</span>
+          <h4 id="threat-heatmap-title">Threat exposure by region</h4>
         </div>
 
-        <strong>LIVE</strong>
+        <div className="threatHeatmap__status">
+          <i aria-hidden="true" />
+          LIVE
+        </div>
       </div>
 
-      <div className="threatHeatmap__grid">
+      <div className="threatHeatmap__regions">
         {regions.map((region) => (
-          <motion.div
+          <article
+            className={`threatHeatmap__region is-${region.level.toLowerCase()}`}
             key={region.name}
-            className="threatHeatmap__card"
-            whileHover={{
-              y: -6,
-              scale: 1.02,
-            }}
           >
-            <span>{region.name}</span>
+            <div className="threatHeatmap__regionTop">
+              <div>
+                <strong>{region.name}</strong>
+                <span>{region.incidents} signals detected</span>
+              </div>
 
-            <div className="threatHeatmap__progress">
-              <motion.div
-                initial={{ width: 0 }}
-                whileInView={{
-                  width: `${region.risk}%`,
-                }}
-                viewport={{ once: true }}
-                transition={{ duration: .8 }}
-              />
+              <span className="threatHeatmap__level">
+                {region.level}
+              </span>
             </div>
 
-            <footer>
+            <div className="threatHeatmap__track">
+              <span style={{ width: `${region.risk}%` }} />
+            </div>
+
+            <div className="threatHeatmap__regionBottom">
               <strong>{region.risk}%</strong>
-              <small>{region.status}</small>
-            </footer>
-          </motion.div>
+              <span>Exposure score</span>
+            </div>
+          </article>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 }
