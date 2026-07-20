@@ -8,7 +8,7 @@ const links = [
   ["#product", "המוצר"],
   ["#capabilities", "יכולות"],
   ["#timeline", "תהליך"],
-  ["#contact", "הדגמה"],
+  ["#contact", "צור קשר"],
 ] as const;
 
 export default function Navbar() {
@@ -31,9 +31,14 @@ export default function Navbar() {
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-        if (visible) setActive(`#${visible.target.id}`);
+        if (visible) {
+          setActive(`#${visible.target.id}`);
+        }
       },
-      { rootMargin: "-30% 0px -55% 0px", threshold: [0.05, 0.2, 0.5] },
+      {
+        rootMargin: "-30% 0px -55% 0px",
+        threshold: [0.05, 0.2, 0.5],
+      },
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -55,7 +60,11 @@ export default function Navbar() {
     <>
       <header className={`aetherNav ${scrolled ? "is-scrolled" : ""}`}>
         <div className="aetherNav__shell">
-          <a className="aetherNav__brand" href="#top" aria-label="AI Aether home">
+          <a
+            className="aetherNav__brand"
+            href="#top"
+            aria-label="AI Aether home"
+          >
             <span>A</span>
             <span>
               <b>AI Aether</b>
@@ -65,14 +74,18 @@ export default function Navbar() {
 
           <nav className="aetherNav__links" aria-label="ניווט ראשי">
             {links.map(([href, label]) => (
-              <a className={active === href ? "is-active" : ""} key={href} href={href}>
+              <a
+                className={active === href ? "is-active" : ""}
+                key={href}
+                href={href}
+              >
                 {label}
               </a>
             ))}
           </nav>
 
           <a className="aetherNav__cta" href="#contact">
-            <span>תיאום הדגמה</span>
+            <span>צור קשר</span>
             <i aria-hidden="true">↗</i>
           </a>
 
@@ -91,7 +104,11 @@ export default function Navbar() {
       <div className={`aetherNavMobile ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <div className="aetherNavMobile__top">
           <span>AI AETHER</span>
-          <button type="button" onClick={() => setOpen(false)} aria-label="סגירת תפריט">
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="סגירת תפריט"
+          >
             <X size={22} />
           </button>
         </div>
@@ -104,6 +121,14 @@ export default function Navbar() {
             </a>
           ))}
         </nav>
+
+        <a
+          className="aetherNavMobile__contact"
+          href="#contact"
+          onClick={() => setOpen(false)}
+        >
+          דברו איתי
+        </a>
 
         <div className="aetherNavMobile__status">
           <i aria-hidden="true" />
